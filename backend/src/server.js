@@ -33,6 +33,10 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
     console.log(`🐇 WealthyRabbit Backend running on port ${PORT}`);
     console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
+
+    // Start background scheduler for monitoring jobs and mock notifications
+    console.log('🔄 Starting background job scheduler...');
+    require('./jobs/scheduler');
 });
 
 module.exports = app;
