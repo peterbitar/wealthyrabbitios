@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject var viewModel: RabbitViewModel
+    @StateObject private var pushManager = PushNotificationManager.shared
 
     var body: some View {
         NavigationView {
@@ -95,6 +96,57 @@ struct SettingsView: View {
                                 .font(WealthyRabbitTheme.captionFont)
                                 .disabled(!viewModel.isBackendAvailable)
                             }
+                        }
+                    }
+                    .listRowBackground(Color.white.opacity(0.6))
+
+                    // Push Notifications Section
+                    Section(header: Text("Push Notifications")) {
+                        HStack {
+                            Image(systemName: pushManager.notificationPermissionGranted ? "bell.fill" : "bell.slash")
+                                .foregroundColor(pushManager.notificationPermissionGranted ? WealthyRabbitTheme.apricot : .secondary)
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Notification Status")
+                                    .font(WealthyRabbitTheme.bodyFont)
+                                Text(pushManager.notificationPermissionGranted ? "Enabled" : "Disabled")
+                                    .font(WealthyRabbitTheme.captionFont)
+                                    .foregroundColor(.secondary)
+                            }
+
+                            Spacer()
+
+                            if !pushManager.notificationPermissionGranted {
+                                Button("Enable") {
+                                    Task {
+                                        await pushManager.requestPermission()
+                                    }
+                                }
+                                .font(WealthyRabbitTheme.captionFont)
+                            }
+                        }
+
+                        if let token = pushManager.deviceToken {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Device Token")
+                                    .font(WealthyRabbitTheme.bodyFont)
+                                Text(String(token.prefix(20)) + "...")
+                                    .font(.system(size: 10, design: .monospaced))
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Mode")
+                                    .font(WealthyRabbitTheme.bodyFont)
+                                Text("Simulated (Developer mode)")
+                                    .font(WealthyRabbitTheme.captionFont)
+                                    .foregroundColor(.secondary)
+                            }
+                            Spacer()
+                            Image(systemName: "info.circle")
+                                .foregroundColor(.secondary)
                         }
                     }
                     .listRowBackground(Color.white.opacity(0.6))

@@ -3,6 +3,7 @@ import Foundation
 struct Config {
     // IMPORTANT: Add your OpenAI API key here
     // Get your API key from: https://platform.openai.com/api-keys
+    // NOTE: For production, use environment variables or secure storage
     static let openAIAPIKey = "YOUR_OPENAI_API_KEY_HERE"
 
     // Alpha Vantage API - Get your free key at: https://www.alphavantage.co/support/#api-key
@@ -13,7 +14,7 @@ struct Config {
 
     // Backend server URL
     // For production: Change to your deployed backend URL
-    static let backendBaseURL = "http://localhost:3000"
+    static let backendBaseURL = "https://wealthyrabbitios-production.up.railway.app"
 
     // Network timeout
     static let backendTimeout: TimeInterval = 10.0

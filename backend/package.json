@@ -11,7 +11,8 @@
     "test-apis": "node test-apis.js",
     "test-price": "node src/jobs/monitorPrices.js",
     "test-news": "node src/jobs/monitorNews.js",
-    "test-social": "node src/jobs/monitorSocial.js"
+    "test-social": "node src/jobs/monitorSocial.js",
+    "test-mock": "node src/jobs/mockNotifications.js"
   },
   "dependencies": {
     "express": "^4.18.2",

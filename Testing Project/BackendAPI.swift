@@ -78,6 +78,7 @@ class BackendAPI {
         case health
         case userRegister
         case userSettings(userId: String)
+        case userPushToken(userId: String)
         case userGet(userId: String)
         case holdingsGet(userId: String)
         case holdingsUpsert
@@ -91,6 +92,8 @@ class BackendAPI {
                 return "\(baseURL)/api/users/register"
             case .userSettings(let userId):
                 return "\(baseURL)/api/users/\(userId)/settings"
+            case .userPushToken(let userId):
+                return "\(baseURL)/api/users/\(userId)/push-token"
             case .userGet(let userId):
                 return "\(baseURL)/api/users/\(userId)"
             case .holdingsGet(let userId):
@@ -210,6 +213,20 @@ class BackendAPI {
         )
 
         return response.user
+    }
+
+    func updatePushToken(userId: String, pushToken: String) async throws {
+        let endpoint = APIEndpoint.userPushToken(userId: userId)
+
+        let body: [String: Any] = [
+            "pushToken": pushToken
+        ]
+
+        let _: EmptyResponse = try await makeRequest(
+            endpoint: endpoint,
+            method: "PUT",
+            body: body
+        )
     }
 
     // MARK: - Holdings Endpoints

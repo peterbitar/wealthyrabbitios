@@ -2,6 +2,7 @@ const cron = require('node-cron');
 const monitorPrices = require('./monitorPrices');
 const monitorNews = require('./monitorNews');
 const monitorSocial = require('./monitorSocial');
+const { sendMockNotifications } = require('./mockNotifications');
 const { pricePoints } = require('../database/models');
 require('dotenv').config();
 
@@ -54,6 +55,20 @@ cron.schedule('0 0 * * *', async () => {
         console.error('❌ Error in cleanup job:', error);
     }
 });
+
+// Mock notifications every 5 minutes (for testing/demo)
+if (process.env.NODE_ENV !== 'production' || process.env.ENABLE_MOCK_NOTIFICATIONS === 'true') {
+    console.log('🎭 Mock notifications enabled - sending every 5 minutes');
+
+    cron.schedule('*/5 * * * *', async () => {
+        console.log(`\n🎭 [${new Date().toLocaleTimeString()}] Sending mock notifications...`);
+        try {
+            await sendMockNotifications();
+        } catch (error) {
+            console.error('❌ Error in mock notifications:', error);
+        }
+    });
+}
 
 // Run once immediately on startup
 console.log('🚀 Running initial monitoring cycle...');
