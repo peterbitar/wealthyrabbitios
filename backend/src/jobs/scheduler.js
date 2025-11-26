@@ -56,18 +56,45 @@ cron.schedule('0 0 * * *', async () => {
     }
 });
 
-// Mock notifications every 5 minutes (for testing/demo)
+// Mock notifications every 5-10 minutes with realistic trading day simulation
 if (process.env.NODE_ENV !== 'production' || process.env.ENABLE_MOCK_NOTIFICATIONS === 'true') {
-    console.log('🎭 Mock notifications enabled - sending every 5 minutes');
+    console.log('🎭 Realistic mock notifications enabled - sending every 5-10 minutes');
 
-    cron.schedule('*/5 * * * *', async () => {
-        console.log(`\n🎭 [${new Date().toLocaleTimeString()}] Sending mock notifications...`);
+    // Function to schedule next mock notification with random delay
+    function scheduleNextMockNotification() {
+        // Random delay between 5-10 minutes (in milliseconds)
+        const minDelay = 5 * 60 * 1000;  // 5 minutes
+        const maxDelay = 10 * 60 * 1000; // 10 minutes
+        const randomDelay = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
+        const minutesDelay = (randomDelay / 60000).toFixed(1);
+
+        console.log(`⏰ Next realistic notification in ${minutesDelay} minutes`);
+
+        setTimeout(async () => {
+            console.log(`\n🎭 [${new Date().toLocaleTimeString()}] Sending realistic mock notifications...`);
+            try {
+                await sendMockNotifications();
+            } catch (error) {
+                console.error('❌ Error in mock notifications:', error);
+            }
+
+            // Schedule the next one
+            scheduleNextMockNotification();
+        }, randomDelay);
+    }
+
+    // Start the cycle
+    scheduleNextMockNotification();
+
+    // Also send one immediately on startup
+    console.log('🚀 Sending initial realistic mock notification...');
+    setTimeout(async () => {
         try {
             await sendMockNotifications();
         } catch (error) {
-            console.error('❌ Error in mock notifications:', error);
+            console.error('❌ Error in initial mock notification:', error);
         }
-    });
+    }, 5000); // 5 seconds after startup
 }
 
 // Run once immediately on startup

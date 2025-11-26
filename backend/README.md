@@ -49,6 +49,17 @@ Express API Server (Node.js)
 
 ## 🚀 Quick Start
 
+### Automated Setup (Recommended)
+
+```bash
+cd backend
+npm run setup  # Checks/installs PostgreSQL, creates DB, loads schema
+npm run test-apis  # Test your API keys
+npm run dev  # Start server
+```
+
+### Manual Setup
+
 ### 1. Prerequisites
 
 ```bash

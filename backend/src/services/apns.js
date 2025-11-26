@@ -55,7 +55,7 @@ class APNsService {
             if (payload.badge !== undefined) notification.badge = payload.badge;
             notification.sound = payload.sound || 'default';
             if (payload.data) notification.payload = payload.data;
-            notification.topic = payload.bundleId || 'com.wealthyrabbit.app';
+            notification.topic = payload.bundleId || 'com.wealthyrabbit.Testing-Project';
 
             const result = await this.provider.send(notification, deviceToken);
 

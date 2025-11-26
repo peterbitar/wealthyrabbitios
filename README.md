@@ -75,17 +75,20 @@ A mindful finance app that helps you stay informed about your investments withou
 
 - **Language**: Swift 5.0
 - **Framework**: SwiftUI + Combine
-- **AI**: OpenAI GPT-3.5-turbo
+- **AI**: OpenAI GPT-4.1-mini (200k TPM rate limit)
 - **Platform**: iOS 26.1+
+- **Architecture**: MVVM with clean folder structure
 
-### Key Files
-- `RabbitModels.swift` - Rabbit types & personalities
-- `RabbitViewModel.swift` - Main state management
-- `BurrowView.swift` - Home screen
-- `RabbitChatView.swift` - Chat interface
-- `SettingsView.swift` - Profile & settings
-- `HoldingsView.swift` - Portfolio management
-- `OpenAIService.swift` - AI integration
+### Project Structure
+
+See `FOLDER_STRUCTURE.md` for detailed file organization:
+- **App/** - Entry point and configuration
+- **Views/** - SwiftUI views
+- **ViewModels/** - Business logic
+- **Models/** - Data structures
+- **Services/** - API integrations
+- **Pipeline/** - News processing system
+- **Utils/** - Utilities and helpers
 
 ## 🔐 Privacy & Security
 
@@ -98,12 +101,10 @@ A mindful finance app that helps you stay informed about your investments withou
 
 ## 📚 Documentation
 
-See `WEALTHYRABBIT.md` for comprehensive documentation including:
-- Detailed feature descriptions
-- User experience flows
-- Design system reference
-- Future enhancement ideas
-- Development guidelines
+- **ARCHITECTURE.md** - News pipeline architecture and API setup
+- **FOLDER_STRUCTURE.md** - File organization guide
+- **backend/README.md** - Backend server documentation
+- **backend/DEPLOY.md** - Deployment guide
 
 ## 🎯 Use Cases
 

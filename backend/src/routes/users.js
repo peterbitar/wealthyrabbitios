@@ -41,6 +41,25 @@ router.post('/push-token', async (req, res) => {
     }
 });
 
+// Update push token (iOS app format)
+router.put('/:userId/push-token', async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { pushToken } = req.body;
+
+        if (!pushToken) {
+            return res.status(400).json({ error: 'pushToken is required' });
+        }
+
+        await users.updatePushToken(userId, pushToken);
+        console.log(`✅ Updated push token for user ${userId}: ${pushToken.substring(0, 20)}...`);
+        res.json({});  // Empty response for iOS app
+    } catch (error) {
+        console.error('Error updating push token:', error);
+        res.status(500).json({ error: 'Failed to update push token' });
+    }
+});
+
 // Update notification settings
 router.post('/settings', async (req, res) => {
     try {
@@ -54,6 +73,25 @@ router.post('/settings', async (req, res) => {
             notificationFrequency,
             notificationSensitivity,
             weeklySubmary
+        });
+
+        res.json({ success: true, user });
+    } catch (error) {
+        console.error('Error updating settings:', error);
+        res.status(500).json({ error: 'Failed to update settings' });
+    }
+});
+
+// Update notification settings (iOS app format)
+router.put('/:userId/settings', async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { notificationFrequency, notificationSensitivity, weeklySummary } = req.body;
+
+        const user = await users.updateSettings(userId, {
+            notificationFrequency,
+            notificationSensitivity,
+            weeklySummary
         });
 
         res.json({ success: true, user });
